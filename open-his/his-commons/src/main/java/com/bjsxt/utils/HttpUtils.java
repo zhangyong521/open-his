@@ -13,7 +13,7 @@ import java.security.cert.X509Certificate;
 /**
  * @author zy
  * @version 1.0
- * @description:  通用http发送方法
+ * @description:  TODO 通用http发送方法
  * @date 2020/12/7 16:07
  */
 @Slf4j

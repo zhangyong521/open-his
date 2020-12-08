@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * @author zy
  * @version 1.0
- * @description: 基础的数据传输对象
+ * @description: TODO 基础的数据传输对象
  * @date 2020/12/7 16:07
  */
 @Data

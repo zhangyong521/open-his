@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author zy
  * @version 1.0
- * @description: 查询菜单信息
+ * @description: TODO 查询菜单Service
  * @date 2020/12/7 17:47
  */
 public interface MenuService {

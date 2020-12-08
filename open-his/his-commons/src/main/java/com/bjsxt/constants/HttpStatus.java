@@ -4,7 +4,7 @@ package com.bjsxt.constants;
 /**
  * @author zy
  * @version 1.0
- * @description: 响应状态码常量
+ * @description: TODO 响应状态码常量
  * @date 2020/12/7 16:07
  */
 public interface HttpStatus {

@@ -4,7 +4,7 @@ package com.bjsxt.constants;
 /**
  * @author zy
  * @version 1.0
- * @description: 系统使用的常量
+ * @description: TODO 系统使用的常量
  * @date 2020/12/7 16:07
  */
 public interface Constants {
@@ -129,5 +129,6 @@ public interface Constants {
      */
     String LOGIN_TYPE_SYSTEM = "0" ;
     String LOGIN_TYPE_PATIENT = "1" ;
+
 
 }

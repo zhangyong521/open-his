@@ -6,7 +6,7 @@ import com.bjsxt.domain.User;
 /**
  * @author zy
  * @version 1.0
- * @description: 用户的接口
+ * @description: TODO 用户的接口Service
  * @date 2020/12/7 17:33
  */
 public interface UserService {

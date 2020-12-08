@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * @description: 菜单权限表
+ * @description: TODO 菜单权限表
  * @author zy
  * @date 2020/12/7 17:47
  * @version 1.0

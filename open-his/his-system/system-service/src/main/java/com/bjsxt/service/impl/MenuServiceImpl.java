@@ -5,14 +5,12 @@ import com.bjsxt.constants.Constants;
 import com.bjsxt.domain.SimpleUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import java.util.List;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bjsxt.domain.Menu;
 import com.bjsxt.mapper.MenuMapper;
 import com.bjsxt.service.MenuService;
 /**
- * @description: TODO 
+ * @description: TODO 菜单的逻辑层
  * @author zy
  * @date 2020/12/7 17:47
  * @version 1.0

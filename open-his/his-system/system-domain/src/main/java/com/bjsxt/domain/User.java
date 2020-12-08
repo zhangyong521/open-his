@@ -13,14 +13,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * @description: TODO 
+ * @description: TODO 用户信息表
  * @author zy
  * @date 2020/12/7 17:33
  * @version 1.0
 */
-/**
-    * 用户信息表
-    */
 @ApiModel(value="com-bjsxt-domain-User")
 @Data
 @EqualsAndHashCode(callSuper=true)

@@ -49,9 +49,9 @@ const actions = {
         routeArr.push(...constantRoutes)
         routeArr.push(...pushRouter)
         routeArr.push(...lastRoute)
-        commit('SET_ROUTES', routeArr)
+        commit('SET_ROUTES', routeArr) // 放到vuex里面
         console.log(routeArr)
-        resolve(pushRouter)
+        resolve(routeArr)
       })
     })
   }

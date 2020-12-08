@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * @author zy
  * @version 1.0
- * @description:  公用的返回Vo对象
+ * @description: TODO 公用的返回Vo对象
  * @date 2020/12/7 16:07
  */
 public class AjaxResult extends HashMap<String,Object> {

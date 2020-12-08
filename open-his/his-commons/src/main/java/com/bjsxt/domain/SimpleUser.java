@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author zy
  * @version 1.0
- * @description: 登陆用户的数据传输对象
+ * @description: TODO 登陆用户的数据传输对象
  * @date 2020/12/7 16:07
  */
 @Data

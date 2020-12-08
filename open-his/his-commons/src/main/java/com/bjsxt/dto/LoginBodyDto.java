@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @author zy
  * @version 1.0
- * @description: 登陆的数据输出对象
+ * @description: TODO 登陆的数据输出对象
  * @date 2020/12/7 16:07
  */
 @Data
