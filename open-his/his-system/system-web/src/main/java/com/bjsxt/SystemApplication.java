@@ -15,8 +15,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableDubbo
 @MapperScan(basePackages = {"com.bjsxt.mapper"})
 public class SystemApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(SystemApplication.class, args);
         System.out.println("SystemApplication主启动类");
     }
+
 }

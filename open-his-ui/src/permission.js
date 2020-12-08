@@ -16,31 +16,35 @@ router.beforeEach(async(to, from, next) => {
 
   // 设置标题
   document.title = getPageTitle(to.meta.title)
-  // 获取当前页面的token
+  // 从vuex里面得到用户登陆的token
   const hasToken = getToken()
-
+  // 判断是否有token
   if (hasToken) {
     if (to.path === '/login') {
       // 如果是登陆路径 直接跳转到首页
       next({ path: '/' })
-      NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
+      NProgress.done()
     } else {
       // 判断用户是否有角色
-      const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      if (hasRoles) {
+      // 确定用户是否已通过getInfo获得其用户
+      const hasName = store.getters.name !== ''
+      console.log(store.getters.name)
+      console.log(hasName)
+      if (hasName) {
         next()
       } else {
         try {
-          // 获取用户信息
-          const { roles } = await store.dispatch('user/getInfo')
-          // 构造动态路由【菜单和权限】
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-          // 动态添加路由
-          router.addRoutes(accessRoutes)
-
+          console.log('ok')
+          // 如果没有得到权限则再去请求后台得到用户信息及权限信息
+          await store.dispatch('user/getInfo')
+          // 绑定动态路由【后面我们要修改】
+          await store.dispatch('menu/getMenus').then(accessRoutes => {
+          // 添加动态路由到主路由
+            router.addRoutes(accessRoutes)
+          })
           next({ ...to, replace: true })
         } catch (error) {
-          // 如果异常，跳转到登陆页面
+          // 如果出现异常，请求后台重置用户的token 并跳转到登陆页
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
@@ -60,6 +64,5 @@ router.beforeEach(async(to, from, next) => {
 })
 
 router.afterEach(() => {
-  // finish progress bar
   NProgress.done()
 })
