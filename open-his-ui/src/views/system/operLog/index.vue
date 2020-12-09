@@ -52,7 +52,6 @@
           />
         </el-select>
       </el-form-item>
-
       <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
@@ -71,7 +70,7 @@
       </el-form-item>
     </el-form>
     <!-- 查询条件结束 -->
-    <!-- 工具栏开始 -->
+    <!-- 表头按钮开始 -->
     <el-row :gutter="10" style="margin-bottom: 8px;">
       <el-col :span="1.5">
         <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete">删除</el-button>
@@ -80,8 +79,7 @@
         <el-button type="warning" icon="el-icon-thumb" size="mini" @click="handleClearInfo">清空</el-button>
       </el-col>
     </el-row>
-    <!-- 工具栏结束 -->
-
+    <!-- 表头按钮结束 -->
     <!-- 数据表格开始 -->
     <el-table v-loading="loading" border :data="operLogTableList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -149,11 +147,10 @@
     <!-- 分页控件结束 -->
   </div>
 </template>
-
-<script >
-// 引入接口
+<script>
 import { listForPage, deleteOperLogByIds, clearAllOperLog } from '@/api/system/operLog'
-export default ({
+export default {
+  // 声明数据
   data() {
     return {
       // 遮罩层
@@ -183,19 +180,22 @@ export default ({
       }
     }
   },
+  // 初始化
   created() {
-    // 加载查询条件状态
+    // 查询条件的状态
     this.getDataByType('sys_common_status').then(res => {
       this.statusOptions = res.data
     })
-    // 加载操作类型
+    // 查询条件的操作类型
     this.getDataByType('sys_oper_type').then(res => {
       this.businessTypeOptions = res.data
     })
+    // 做查询
     this.getOperLogList()
   },
+  // 自定义方法
   methods: {
-    // 查询操作信息
+    // 查询操作日志
     getOperLogList() {
       this.loading = true
       listForPage(this.addDateRange(this.queryParams, this.dateRange)).then(res => {
@@ -204,77 +204,82 @@ export default ({
         this.loading = false
       })
     },
-    // 每页显示多少条的数据变化
-    handleSizeChange(val) {
-      this.queryParams.pageSize = val
+    // 条件查询
+    handleQuery() {
       this.getOperLogList()
     },
-    // 分页跳转
-    handleCurrentChange(val) {
-      this.queryParams.pageNum = val
+    // 重置查询条件
+    resetQuery() {
+      this.resetForm('queryForm')
       this.getOperLogList()
     },
-    // 多选框选中数据
+    // 数据表格的多选择框选择时触发
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.infoId)
+      this.ids = selection.map(item => item.operId)
       this.multiple = !selection.length
     },
-    // 查询
-    handleQuery() {
-      this.queryParams.pageNum = 1
+    // 分页pageSize变化时触发
+    handleSizeChange(val) {
+      this.queryParams.pageSize = val
+      // 重新查询
       this.getOperLogList()
     },
-    // 重置
-    resetQuery() {
-      this.dateRange = []
-      this.resetForm('queryForm')
+    // 点击上一页  下一页，跳转到哪一页面时触发
+    handleCurrentChange(val) {
+      this.queryParams.pageNum = val
+      // 重新查询
       this.getOperLogList()
     },
     // 翻译状态
     statusFormatter(row) {
       return this.selectDictLabel(this.statusOptions, row.status)
     },
-    // 翻译业务类型
+    // 翻译操作类型
     businessTypeFormatter(row) {
-      console.log(row.businessType)
       return this.selectDictLabel(this.businessTypeOptions, row.businessType)
     },
     // 删除
     handleDelete(row) {
-      const tx = this
       const operIds = row.operId || this.ids
       this.$confirm('是否确认删除操作日志ID为:' + operIds + '的数据?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function() {
+      }).then(() => {
+        this.loading = true
         deleteOperLogByIds(operIds).then(res => {
-          tx.msgSuccess('删除成功')
-          tx.getOperLogList()// 全查询
+          this.loading = false
+          this.msgSuccess('删除成功')
+          this.getOperLogList()// 全查询
         })
-      }).catch(function() {
-        tx.msgError('操作已取消')
+      }).catch(() => {
+        this.msgError('删除已取消')
+        this.loading = false
       })
     },
     // 清空
     handleClearInfo() {
-      const tx = this
-      this.$confirm('是否确认清空登陆日志的数据?', '警告', {
+      this.$confirm('此操作将永久清空操作日志数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消'
-      }).then(function() {
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.loading = true
         clearAllOperLog().then(res => {
-          tx.msgSuccess('删除成功')
-          tx.getOperLogList()// 全查询
+          this.loading = false
+          this.msgSuccess('清空成功')
+          this.getOperLogList()// 全查询
         })
-      }).catch(function() {
-        tx.msgError('操作已取消')
+      }).catch(() => {
+        this.msgError('清空已取消')
+        this.loading = false
       })
     }
+
   }
-})
+}
 </script>
-<style  scoped>
+<style scoped>
   .demo-table-expand {
     font-size: 0;
   }
