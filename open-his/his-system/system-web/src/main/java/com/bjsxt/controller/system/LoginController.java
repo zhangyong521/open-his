@@ -1,5 +1,7 @@
 package com.bjsxt.controller.system;
 
+import com.bjsxt.aspectj.annotation.Log;
+import com.bjsxt.aspectj.enums.BusinessType;
 import com.bjsxt.constants.Constants;
 import com.bjsxt.constants.HttpStatus;
 import com.bjsxt.domain.Menu;
@@ -45,6 +47,7 @@ public class LoginController {
      * @return 结果
      */
     @PostMapping("login/doLogin")
+    @Log(title = "用户登录",businessType = BusinessType.OTHER)
     public AjaxResult login(@RequestBody @Validated LoginBodyDto loginBodyDto, HttpServletRequest request) {
         AjaxResult ajax = AjaxResult.success();
         String username = loginBodyDto.getUsername();
@@ -84,7 +87,7 @@ public class LoginController {
     /**
      * 用户退出
      */
-    @GetMapping("login/logout")
+    @PostMapping("login/logout")
     public AjaxResult logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();

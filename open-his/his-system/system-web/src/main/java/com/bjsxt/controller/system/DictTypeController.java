@@ -1,5 +1,7 @@
 package com.bjsxt.controller.system;
 
+import com.bjsxt.aspectj.annotation.Log;
+import com.bjsxt.aspectj.enums.BusinessType;
 import com.bjsxt.dto.DictTypeDto;
 import com.bjsxt.service.DictTypeService;
 import com.bjsxt.utils.ShiroSecurityUtils;
@@ -15,7 +17,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @author zy
  * @version 1.0
- * @description: TODO 数据字典控制层
+ * @description: TODO 数据字典类型控制层
  * @date 2020/12/8 15:16
  */
 @RestController
@@ -38,6 +40,7 @@ public class DictTypeController {
      * 添加
      */
     @PostMapping("addDictType")
+    @Log(title = "添加字典类型",businessType = BusinessType.INSERT)
     public AjaxResult addDictType(@Validated DictTypeDto dictTypeDto) {
         Boolean flag = dictTypeService.checkDictTypeUnique(dictTypeDto.getDictId(), dictTypeDto.getDictType());
         if (flag) {
@@ -53,6 +56,7 @@ public class DictTypeController {
      * 修改
      */
     @PutMapping("updateDictType")
+    @Log(title = "修改字典类型",businessType = BusinessType.UPDATE)
     public AjaxResult updateDictType(@Validated DictTypeDto dictTypeDto) {
         Boolean flag = dictTypeService.checkDictTypeUnique(dictTypeDto.getDictId(), dictTypeDto.getDictType());
         if (flag) {
@@ -76,6 +80,7 @@ public class DictTypeController {
      * 删除
      */
     @DeleteMapping("deleteDictTypeByIds/{dictIds}")
+    @Log(title = "删除字典类型",businessType = BusinessType.DELETE)
     public AjaxResult updateDictType(@PathVariable @Validated @NotEmpty(message = "要删除的ID不能为空") Long[] dictIds) {
         return AjaxResult.toAjax(this.dictTypeService.deleteDictTypeByIds(dictIds));
     }
@@ -92,6 +97,7 @@ public class DictTypeController {
      * 同步缓存
      */
     @GetMapping("dictCacheAsync")
+    @Log(title = "同步字典数据到redis",businessType = BusinessType.OTHER)
     public AjaxResult dictCacheAsync(){
         try {
             this.dictTypeService.dictCacheAsync();
