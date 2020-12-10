@@ -2,6 +2,10 @@ package com.bjsxt.service;
 
 
 import com.bjsxt.domain.User;
+import com.bjsxt.dto.UserDto;
+import com.bjsxt.vo.DataGridView;
+
+import java.util.List;
 
 /**
  * @author zy
@@ -23,5 +27,45 @@ public interface UserService {
      * @return
      */
     User getOne(Long userId);
+
+    /**
+     * 分页查询用户
+     * @param userDto
+     * @return
+     */
+    DataGridView listUserForPage(UserDto userDto);
+
+    /**
+     * 添加用户
+     * @param userDto
+     * @return
+     */
+    int addUser(UserDto userDto);
+
+    /**
+     * 修改用户
+     * @param userDto
+     * @return
+     */
+    int updateUser(UserDto userDto);
+
+    /**
+     * 删除用户
+     * @param userIds
+     * @return
+     */
+    int deleteUserByIds(Long[] userIds);
+
+    /**
+     * 查询所有可用的用户
+     * @return
+     */
+    List<User> getAllUsers();
+
+    /**
+     * 重置用户密码
+     * @param userIds
+     */
+    void resetPassWord(Long[] userIds);
 
 }

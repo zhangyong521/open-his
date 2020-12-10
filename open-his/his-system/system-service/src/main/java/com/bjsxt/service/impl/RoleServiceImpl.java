@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -97,6 +98,29 @@ public class RoleServiceImpl implements RoleService {
         this.roleMapper.deleteRoleMenuByRoleIds(Arrays.asList(roleId));
         for (Long menuId : menuIds) {
             this.roleMapper.saveRoleMenu(roleId, menuId);
+        }
+    }
+
+    /**
+     * 根据用户ID查询用户拥有的角色IDS
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Long> getRoleIdsByUserId(Long userId) {
+        if (null == userId) {
+            return Collections.EMPTY_LIST;
+        }
+        return this.roleMapper.selectRoleIdsByUserId(userId);
+    }
+
+    @Override
+    public void saveRoleUser(Long userId, Long[] roleIds) {
+        //根据用户ID先删除sys_role_menu里面原来的数据
+        this.roleMapper.deleteRoleUserByUserIds(Arrays.asList(userId));
+        for (Long roleId : roleIds) {
+            this.roleMapper.saveRoleUser(userId, roleId);
         }
     }
 

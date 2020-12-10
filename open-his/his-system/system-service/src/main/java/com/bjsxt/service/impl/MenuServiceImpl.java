@@ -6,34 +6,42 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bjsxt.constants.Constants;
 import com.bjsxt.domain.SimpleUser;
 import com.bjsxt.dto.MenuDto;
+import com.bjsxt.mapper.RoleMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 import java.util.List;
+
 import com.bjsxt.domain.Menu;
 import com.bjsxt.mapper.MenuMapper;
 import com.bjsxt.service.MenuService;
+
 /**
- * @description: TODO 菜单的逻辑层
  * @author zy
- * @date 2020/12/7 17:47
  * @version 1.0
-*/
+ * @description: TODO 菜单的逻辑层
+ * @date 2020/12/7 17:47
+ */
 @Service
-public class MenuServiceImpl implements MenuService{
+public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public List<Menu> selectMenuTree(boolean isAdmin, SimpleUser simpleUser) {
 
         QueryWrapper<Menu> qw = new QueryWrapper<>();
         qw.eq(Menu.COL_STATUS, Constants.STATUS_TRUE);
-        qw.in(Menu.COL_MENU_TYPE,Constants.MENU_TYPE_M,Constants.MENU_TYPE_C);
+        qw.in(Menu.COL_MENU_TYPE, Constants.MENU_TYPE_M, Constants.MENU_TYPE_C);
         qw.orderByDesc(Menu.COL_PARENT_ID);
-        if(isAdmin){
+        if (isAdmin) {
             return menuMapper.selectList(qw);
-        }else {
+        } else {
             //TODO 需要修改哦
             //根据用户id查询用户拥有的菜单信息
             return menuMapper.selectList(qw);
@@ -74,7 +82,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public int deleteMenuById(Long menuId) {
-        //先删除role_menu的中间表的数据【后面再加】TODO 需要修改哦
+        //先删除role_menu的中间表的数据【后面再加】
+        this.roleMapper.deleteRoleMenuByMenuIds(Arrays.asList(menuId));
         //再删除菜单或权限
         return this.menuMapper.deleteById(menuId);
     }
@@ -88,4 +97,5 @@ public class MenuServiceImpl implements MenuService{
     public List<Long> getMenusIdsByRoleId(Long roleId) {
         return this.menuMapper.queryMenuIdsByRoleId(roleId);
     }
+
 }
