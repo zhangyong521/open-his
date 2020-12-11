@@ -1,4 +1,4 @@
-package com.bjsxt.config.mybatisplus;
+package com.bjsxt.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * @author zy
  * @version 1.0
- * @description: TODO
- * @date 2020/12/7 16:50
+ * @description: TODO 全局的分页插件
+ * @date 2020/12/10 17:28
  */
 @EnableTransactionManagement
 @Configuration
@@ -26,5 +26,4 @@ public class MybatisPlusConfig {
         paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
         return paginationInterceptor;
     }
-
 }
